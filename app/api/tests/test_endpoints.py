@@ -1,5 +1,10 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../..")))
+
 import pytest
 from fastapi.testclient import TestClient
+from fastapi import FastAPI
 from app.api.endpoints import router
 from app.api.database import get_db, Base, db_engine
 from sqlalchemy.orm import sessionmaker
@@ -15,10 +20,14 @@ def override_get_db():
     finally:
         db.close()
 
-# Override the dependency
-router.dependency_overrides[get_db] = override_get_db
+# Create a FastAPI app instance
+app = FastAPI()
+app.include_router(router)
 
-client = TestClient(router)
+# Override the dependency on the app instance
+app.dependency_overrides[get_db] = override_get_db
+
+client = TestClient(app)
 
 @pytest.fixture(scope="module")
 def test_client():

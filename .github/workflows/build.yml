@@ -43,7 +43,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install fastapi uvicorn pytest pytest-asyncio sqlalchemy
       - name: run API tests
-        run: pytest app/api/tests
+        run: PYTHONPATH=$(pwd) pytest app/api/tests
 
   test-frontend:
     runs-on: ubuntu-24.04
