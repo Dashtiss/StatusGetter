@@ -41,7 +41,7 @@ jobs:
       - name: install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install fastapi uvicorn pytest pytest-asyncio sqlalchemy
+          pip install -r requirements.txt
       - name: run API tests
         run: PYTHONPATH=$(pwd) pytest app/api/tests
 

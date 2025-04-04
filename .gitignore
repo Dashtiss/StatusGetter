@@ -363,3 +363,6 @@ dist
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+test.db
+*.db
