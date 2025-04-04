@@ -41,7 +41,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
 	// Adding legacy4j dependency
-	implementation 'com.github.legacy4j:legacy4j:1.0.0' // Replace with the correct version if needed
+	//implementation 'com.github.legacy4j:legacy4j:1.0.0' // Replace with the correct version if needed
 }
 
 processResources {
