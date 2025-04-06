@@ -23,14 +23,38 @@ const App: React.FC = () => {
           throw new Error('Failed to fetch data from API');
         }
         const result = await response.json();
-        setData(result);
+
+        // Transform the data to match the expected format for the chart
+        const transformedData: Record<string, any[]> = {};
+        result.data.forEach((server: any) => {
+          server.metrics.forEach((metric: any) => {
+            if (!transformedData[metric.metric_name]) {
+              transformedData[metric.metric_name] = [];
+            }
+            transformedData[metric.metric_name].push({
+              timestamp: metric.timestamp,
+              value: metric.value,
+            });
+          });
+        });
+
+        setData(transformedData);
       } catch (err) {
         setError('Cannot connect to API');
         // Adding placeholder data for demonstration purposes
         setData({
-          TPS: [10, 20, 30, 40],
-          Chunks: [100, 200, 300, 400],
-          Players: [5, 10, 15, 20],
+          TPS: [
+            { timestamp: '2023-10-01T12:00:00Z', value: 10 },
+            { timestamp: '2023-10-01T12:30:00Z', value: 20 },
+          ],
+          Chunks: [
+            { timestamp: '2023-10-01T12:00:00Z', value: 100 },
+            { timestamp: '2023-10-01T12:30:00Z', value: 200 },
+          ],
+          Players: [
+            { timestamp: '2023-10-01T12:00:00Z', value: 5 },
+            { timestamp: '2023-10-01T12:30:00Z', value: 10 },
+          ],
         });
       }
     };
@@ -46,7 +70,7 @@ const App: React.FC = () => {
       <h1>Server Metrics</h1>
       {error && <p className="error">{error}</p>}
       <div className="metrics-toggle">
-        {['TPS', 'Chunks', 'Players'].map((metric) => (
+        {['TPS', 'Chunks', 'Players', 'CPU_Usage', 'Memory_Usage'].map((metric) => (
           <button
             key={metric}
             onClick={() => toggleMetric(metric)}

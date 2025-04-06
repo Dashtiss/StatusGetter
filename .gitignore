@@ -364,5 +364,8 @@ dist
 # Built Visual Studio Code Extensions
 *.vsix
 
+
+# Custom Project Files
 test.db
 *.db
+app/test.db
